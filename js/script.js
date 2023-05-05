@@ -1,65 +1,95 @@
-const tasksList = localStorage.getItem('tasks') ? JSON.parse(this.localStorage.getItem('tasks')) : [];
-const addButton = document.querySelector("#add-button");
-const taskOutput = document.querySelector('.list');
+const data = localStorage.getItem('todoList') ? JSON.parse(this.localStorage.getItem('todoList')) : [];
+const add = document.querySelector('#add-button');
+const ul = document.querySelector('.list');
+const container = document.querySelectorAll('.container');
 
 window.addEventListener('load', () => {
     displayDate();
-    tasksList.forEach(task => {
-        displayTasks(task);
-
-    });   
+    if (data.length == 0) {
+        container[1].style.display = "none";
+    } else {
+        container[1].style.display = "block";
+        data.forEach(item => {
+            createLi(item);
+        });
+    }
 });
+add.addEventListener('click', (event) => {
+    event.preventDefault();
+    const form = document.querySelector('.form');
+    let task = document.querySelector("#task");   
+    let item = {
+        state : false,
+        text : task.value
+    }
+    if (task.value !== '') {
+        data.push(item)
+        displayDiv();
+        localStorage.setItem("todoList", JSON.stringify(data));
+        createLi(item);
+        form.reset();
+    } else {
+        alert('please write a task!');
+    }
+
+});
+function createLi(item) {
+    const li = document.createElement('li');
+    li.className = 'listItem';
+    if (item.state) {
+        li.innerHTML = `        
+                        <span class="title checked">${item.text}</span> 
+                        <span class="doneBtn fa-icon done-check"></span>
+                        <span class="deleteBtn fa-icon"></span>
+                        `;
+    } else {
+        li.innerHTML = `
+                        <span class="title">${item.text}</span> 
+                        <span class="doneBtn fa-icon"></span>
+                        <span class="deleteBtn fa-icon"></span>
+        `;
+    }
+    ul.append(li);
+    removeBtn(item, li);
+    completedBtn(item,li);
+}
+function removeBtn(item, li) {
+    const deleteButton = li.querySelector('.deleteBtn');
+    deleteButton.addEventListener('click', () => {
+        li.remove();
+        data.splice(data.indexOf(item),1);
+        localStorage.setItem('todoList', JSON.stringify(data));
+        displayDiv();
+    });
+}
+function completedBtn(item, li) {
+    const title = li.querySelector('.title')
+    const doneButton = li.querySelector('.doneBtn');
+    doneButton.addEventListener('click', () => {
+        if (item.state === false) {
+            item.state = true;           
+            title.className = 'title checked';
+            doneButton.className = 'doneBtn fa-icon done-check'
+            localStorage.setItem('todoList', JSON.stringify(data));
+        } else {
+            item.state = false;
+            title.className = 'title';
+            doneButton.className = 'doneBtn fa-icon'
+            localStorage.setItem('todoList', JSON.stringify(data));
+        }
+    });
+}
+function displayDiv() {
+    if (data.length == 0) {
+        container[1].style.display = "none";
+    } else {
+        container[1].style.display = "block";
+    }  
+}
 
 function displayDate() {
     let date = new Date();
     date = date.toString().split(" ");
-    date = date[1] + " " + date[2] + " " + date[3];
+    date = date[1] + " - " + date[2] + " - " + date[3];
     document.querySelector(".today").innerHTML = date;
 }
-
-addButton.addEventListener('click', () => {
-    const task = document.querySelector("#task");
-    createTask(task)
-});
-
-function displayTasks(task) {
-
-    const li = document.createElement('li');
-    li.className = 'listItem';
-    li.innerHTML = `        
-                    <span class="title">${task}</span> 
-                    <span class="doneBtn fa-icon"></span>
-                    <span class="deleteBtn fa-icon"></span>
-                    `;
-    taskOutput.append(li); 
-
-// delete button
-    const deleteButton = li.querySelector('.deleteBtn');
-    deleteButton.addEventListener('click', function () {
-        li.remove();
-        tasksList.splice(tasksList.indexOf(task),1);
-        localStorage.setItem('tasks', JSON.stringify(tasksList))
-    });
-
-// done button
-    const title = li.querySelector('.title')
-    const doneButton = li.querySelector('.doneBtn');
-    doneButton.addEventListener('click', function () {
-        if (title.className === 'title checked') {
-            title.className = 'title';
-            doneButton.className = 'doneBtn fa-icon'
-        } else {
-            title.className = 'title checked';
-            doneButton.className = 'doneBtn fa-icon done-check'
-        }
-    });
-}
-
-function createTask(task) {
-    tasksList.push(task.value);
-    localStorage.setItem("tasks", JSON.stringify(tasksList));
-
-}
-
-
-
