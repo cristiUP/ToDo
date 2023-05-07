@@ -2,6 +2,7 @@ const data = localStorage.getItem('todoList') ? JSON.parse(this.localStorage.get
 const add = document.querySelector('#add-button');
 const ul = document.querySelector('.list');
 const container = document.querySelectorAll('.container');
+const clearAll = document.querySelector('.clear-all');
 
 window.addEventListener('load', () => {
     displayDate();
@@ -31,8 +32,16 @@ add.addEventListener('click', (event) => {
     } else {
         alert('please write a task!');
     }
-
 });
+clearAll.addEventListener('click', (event) =>{
+    event.preventDefault();
+    ul.innerHTML = "";
+    data.splice(0, data.length);
+    localStorage.setItem('todoList', JSON.stringify(data));
+    container[1].style.display = "none";
+    
+})
+
 function createLi(item) {
     const li = document.createElement('li');
     li.className = 'listItem';
@@ -86,7 +95,6 @@ function displayDiv() {
         container[1].style.display = "block";
     }  
 }
-
 function displayDate() {
     let date = new Date();
     date = date.toString().split(" ");

@@ -42,7 +42,7 @@
     background-color: #fcfcfc;
     border-top: 1px solid #36cca2;
   }
-  .form button {
+  .form button, .clear-all {
     background:#36cca2;
     color: #fff;
     font-weight: 600;
@@ -52,11 +52,14 @@
     border-radius: 5px;
     cursor: pointer;
   }
+  .clear-all {
+    margin-top: 20px;
+  }
 
   .deleteBtn:hover, .doneBtn:hover {
     color: orangered;
   }
-  .form button:hover {
+  .form button:hover, .clear-all:hover {
     background: #fff;
     color: #36cca2;
     border: 1px solid #36cca2;
