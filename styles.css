@@ -56,7 +56,7 @@
     margin-top: 20px;
   }
 
-  .deleteBtn:hover, .doneBtn:hover {
+  .delete-btn:hover, .done-btn:hover {
     color: orangered;
   }
   .form button:hover, .clear-all:hover {
@@ -92,10 +92,10 @@
     font-size: 1.62em;
   }
 
-  .doneBtn::before {
+  .done-btn::before {
     content: '\f0c8';
   }
-  .deleteBtn::before {
+  .delete-btn::before {
     content: '\f2ed';
   }
   .done-check::before {

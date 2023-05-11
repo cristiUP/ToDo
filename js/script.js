@@ -48,22 +48,22 @@ function createLi(item) {
     if (item.state) {
         li.innerHTML = `        
                         <span class="title checked">${item.text}</span> 
-                        <span class="doneBtn fa-icon done-check"></span>
-                        <span class="deleteBtn fa-icon"></span>
+                        <span class="done-btn fa-icon done-check"></span>
+                        <span class="delete-btn fa-icon"></span>
                         `;
     } else {
         li.innerHTML = `
                         <span class="title">${item.text}</span> 
-                        <span class="doneBtn fa-icon"></span>
-                        <span class="deleteBtn fa-icon"></span>
-        `;
+                        <span class="done-btn fa-icon"></span>
+                        <span class="delete-btn fa-icon"></span>
+                    `;
     }
     ul.append(li);
     removeBtn(item, li);
     completedBtn(item,li);
 }
 function removeBtn(item, li) {
-    const deleteButton = li.querySelector('.deleteBtn');
+    const deleteButton = li.querySelector('.delete-btn');
     deleteButton.addEventListener('click', () => {
         li.remove();
         data.splice(data.indexOf(item),1);
@@ -73,17 +73,17 @@ function removeBtn(item, li) {
 }
 function completedBtn(item, li) {
     const title = li.querySelector('.title')
-    const doneButton = li.querySelector('.doneBtn');
+    const doneButton = li.querySelector('.done-btn');
     doneButton.addEventListener('click', () => {
         if (item.state === false) {
             item.state = true;           
             title.className = 'title checked';
-            doneButton.className = 'doneBtn fa-icon done-check'
+            doneButton.className = 'done-btn fa-icon done-check'
             localStorage.setItem('todoList', JSON.stringify(data));
         } else {
             item.state = false;
             title.className = 'title';
-            doneButton.className = 'doneBtn fa-icon'
+            doneButton.className = 'done-btn fa-icon'
             localStorage.setItem('todoList', JSON.stringify(data));
         }
     });
