@@ -4,4 +4,4 @@ This is my interpretation of a simple To Do list app created with HTML, CSS, Jav
 
 # Demo
 
-Demo hosted on GutHub Pages: https://cristiup.github.io/ToDo/
+https://cristiup.github.io/ToDo/
